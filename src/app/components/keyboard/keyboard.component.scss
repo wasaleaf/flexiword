@@ -31,13 +31,12 @@ div.spacer {
 button {
     display: flex;
     align-items: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
     font-weight: 700;
-    background: rgb(129, 131, 132);
+    color: var(--color);
+    background: var(--keyboard-color);
     border: none;
     border-radius: 4px;
-    color: rgb(248, 248, 248);
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
@@ -62,16 +61,13 @@ button.wide {
 }
 
 button[state="correct"] {
-    background: var(--color-correct);
-    background: rgb(83, 141, 78);
+    background: var(--correct-color);
 }
 
 button[state="present"] {
-    background: var(--color-present);
-    background: rgb(181, 159, 59);
+    background: var(--present-color);
 }
 
 button[state="absent"] {
-    background: var(--color-absent);
-    background: rgb(58, 58, 60);
+    background: var(--absent-color);
 }

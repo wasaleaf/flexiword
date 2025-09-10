@@ -19,7 +19,7 @@ export class KeyboardComponent {
   protected row3 = ['z','x','c','v','b','n','m'];
 
   public onKey(key: string) {
-    this.keyPress .emit(key);
+    this.keyPress.emit(key);
   }
 
   @HostListener('window:keyup', ['$event'])

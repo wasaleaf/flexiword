@@ -1,20 +1,20 @@
 <div class="keyboard">
     <div class="keyboard-row">
         @for (key of row1; track key) {
-            <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
+        <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
         }
     </div>
     <div class="keyboard-row">
         <div class="spacer"></div>
         @for (key of row2; track key) {
-            <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
+        <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
         }
         <div class="spacer"></div>
     </div>
     <div class="keyboard-row">
         <button class="wide" [attr.state]="keyState['ENTER']" (click)="onKey('ENTER')">enter</button>
         @for (key of row3; track key) {
-            <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
+        <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
         }
         <button class="wide" (click)="onKey('BACKSPACE')"><fa-icon [icon]="deleteIcon"></fa-icon></button>
     </div>
