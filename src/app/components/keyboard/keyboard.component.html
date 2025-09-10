@@ -12,7 +12,7 @@
         <div class="spacer"></div>
     </div>
     <div class="keyboard-row">
-        <button class="wide" [attr.state]="keyState['ENTER']" (click)="onKey('ENTER')">enter</button>
+        <button class="wide" (click)="onKey('ENTER')">Enter</button>
         @for (key of row3; track key) {
         <button [attr.state]="keyState[key]" (click)="onKey(key)">{{key}}</button>
         }

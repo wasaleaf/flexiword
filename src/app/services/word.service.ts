@@ -63,6 +63,7 @@ export class WordService {
 
     // Save todays word to localStorage
     localStorage.setItem(dayKey, word);
+    used.push(word);
     localStorage.setItem(usedKey, JSON.stringify(used));
 
     return word;

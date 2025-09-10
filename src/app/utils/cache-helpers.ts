@@ -11,8 +11,7 @@ export function WordOfDayCacheKey(length: number): string {
     const year = today.getUTCFullYear();
     const month = today.getUTCMonth();
     const day = today.getUTCDate();
-    const utcDateStr = `${year}${(month + 1).toString().padStart(2, '0')}
-    ${day.toString().padStart(2, '0')}${length}`;
+    const utcDateStr = `${year}${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${length}`;
 
     return utcDateStr;
 }

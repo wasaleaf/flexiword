@@ -11,7 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class KeyboardComponent {
   public deleteIcon = faDeleteLeft;
-  @Input() keyState: Record<string, LetterState.Correct | LetterState.Present | LetterState.Absent | undefined> = {};
+  @Input() keyState: Record<string, LetterState> = {};
   @Output() keyPress = new EventEmitter<string>();
 
   protected row1 = ['q','w','e','r','t','y','u','i','o','p'];
