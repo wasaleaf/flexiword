@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    /* Dark mode defaults */
+    --background-color: rgb(18, 18, 19);
+    --color: rgb(248, 248, 248);
+    --border-input-color: rgb(86, 87, 88);
+    --keyboard-color: rgb(129, 131, 132);
+    --absent-color: rgb(58, 58, 60);
+    --present-color: rgb(181, 159, 59);
+    --correct-color: rgb(83, 141, 78);
+
+    /* Light mode defaults */
+    background-color: var(--background-color);
+    color: var(--color);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+}

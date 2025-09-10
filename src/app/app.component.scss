@@ -1,0 +1,38 @@
+div.app-container {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  display: block;
+
+  section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    button {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--color);
+      border: none;
+      background: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      user-select: none;
+    }
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  width: 500px;
+  margin: 0 auto;
+}
