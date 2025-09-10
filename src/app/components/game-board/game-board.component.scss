@@ -1,0 +1,59 @@
+div.board-container {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+div.board {
+    display: grid;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+div.row {
+    display: grid;
+    grid-template-columns: repeat(5, 62px);
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+div.cell {
+    width: 62px;
+    height: 62px;
+    box-sizing: border-box;
+    border: 2px solid var(--absent-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 32px;
+    text-transform: uppercase;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.cell[state="tbd"] {
+    border-color: var(--border-input-color);
+}
+
+.cell[state="correct"] {
+    background: var(--correct-color);
+    border: none;
+}
+
+.cell[state="present"] {
+    background: var(--present-color);
+    border: none;
+}
+
+.cell[state="absent"] {
+    background: var(--absent-color);
+    border: none;
+}
