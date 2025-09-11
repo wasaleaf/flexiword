@@ -102,6 +102,76 @@ export class GameService {
       return;
     }
 
-    // TODO add submit logic
+    const target = this.targetWord.split('');
+    const guessArr = guess.split('');
+    const freq: Record<string, number> = {};
+    const states: LetterState[] = Array(this.wordLength).fill(LetterState.Absent);
+
+    for (const letter of target) {
+      freq[letter] = (freq[letter] ?? 0) + 1;
+    }
+
+    // Mark correct letter guesses
+    guessArr.forEach((guessLetter, i) => {
+      const targetLetter = target[i];
+
+      if (guessLetter === targetLetter) {
+        states[i] = LetterState.Correct;
+        freq[guessLetter]!--;
+      }
+    });
+
+    // Mark other letter guesses
+    guessArr.forEach((guessLetter, i) => {
+      if (states[i] === LetterState.Correct) return;
+
+      const remaining = freq[guessLetter] ?? 0;
+      if (remaining > 0) {
+        states[i] = LetterState.Present;
+        freq[guessLetter]!--;
+      }
+    });
+
+    // Apply to board
+    states.forEach((state, i) => {
+      row.cells[i].state = state;
+    });
+
+    // Update keyboard state with precedence
+    guessArr.forEach((letter, i) => {
+      const state = states[i];
+      this.setKeyState(letter, state);
+    });
+
+    this.rowSubject.next([...this.rows]);
+
+    // Check for win
+    if (states.every(state => state === LetterState.Correct)) {
+      this.gameOver = true;
+      this.win = true;
+      // TODO make a toast message based on the amount of guesses it took
+      return;
+    }
+
+    // Check for game over
+    if (this.currentRowIndex === this.maxGuesses) {
+      this.gameOver = true;
+      // TODO make a toast message that the game is over and what the word was
+    }
+
+    this.currentRowIndex++;
+    this.currentCellIndex = 0;
+  }
+
+  private statePrecedence(state: LetterState) {
+    return state === LetterState.Correct ? 3 : state === LetterState.Present ? 2 : state === LetterState.Absent ? 1 : 0;
+  }
+
+  private setKeyState(letter: string, state: LetterState) {
+    if (state === LetterState.Tbd || state === LetterState.Empty) return;
+    const currentState = this.keyStates[letter];
+    if (this.statePrecedence(state) > this.statePrecedence(currentState)) {
+      this.keyStates[letter] = state;
+    }
   }
 }
