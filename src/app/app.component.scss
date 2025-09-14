@@ -5,8 +5,21 @@ div.app-container {
   width: 100%;
 }
 
+button {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color);
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  user-select: none;
+  padding: 0;
+}
+
 header {
   display: block;
+  border-bottom: 1px solid var(--absent-color);
 
   section {
     display: flex;
@@ -15,24 +28,52 @@ header {
     justify-content: space-between;
     padding-left: 24px;
     padding-right: 24px;
+  }
+}
 
-    button {
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--color);
-      border: none;
-      background: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      user-select: none;
-    }
+div.backdrop {
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.settings {
+  display: flex;
+  position: fixed;
+  top: 0;
+  padding: 0;
+  padding-top: 30px;
+  border: none;
+  justify-content: center;
+  max-width: 520px;
+  width: 90%;
+  max-height: 100%;
+  z-index: 100;
+
+  app-settings {
+    max-width: 520px;
+    width: 90%;
+    max-height: 100%;
   }
 }
 
 main {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
   max-width: 500px;
-  width: 500px;
   margin: 0 auto;
+  max-height: calc(100% - 80px);
+  height: calc(100% - 80px);
+
+  app-keyboard {
+    width: 100%;
+  }
 }

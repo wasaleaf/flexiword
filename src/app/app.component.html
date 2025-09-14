@@ -2,34 +2,23 @@
   <header>
     <section>
       <h1>FlexiWord</h1>
-      <menu>
-        <button class="settings" (click)="dialogOpen = !dialogOpen">
-          <fa-icon [icon]="settingsIcon"></fa-icon>
-        </button>
-      </menu>
+      <button (click)="dialogOpen = !dialogOpen">
+        <fa-icon [icon]="settingsIcon"></fa-icon>
+      </button>
     </section>
   </header>
 
   @if (dialogOpen) {
-  <dialog>
-    <div class="settings">
-      <div>
-        <h2>Settings</h2>
-        <button class="close"><fa-icon [icon]="closeIcon"></fa-icon></button>
-      </div>
-      <div>
-        <!-- TODO add difficulty -->
-        <!-- TODO add guess selection -->
-        <!-- TODO dark/light mode -->
-        <!-- TODO add colour selection for partial and correct -->
-      </div>
+  <div class="backdrop" (click)="dialogOpen = false">
+    <div class="settings" (click)="$event.stopPropagation()">
+      <app-settings [(dialogOpen)]="dialogOpen"></app-settings>
     </div>
-  </dialog>
+  </div>
   }
 
   <main>
     @if (gameService.rows$ | async; as rows) {
-      <app-game-board [rows]="rows" [wordLength]="gameService.wordLength"></app-game-board>
+    <app-game-board [rows]="rows" [wordLength]="gameService.wordLength"></app-game-board>
     }
 
     <app-keyboard [keyState]="gameService.keyStates" (keyPress)="gameService.handleKeyPress($event)"></app-keyboard>

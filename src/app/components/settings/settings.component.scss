@@ -1,0 +1,29 @@
+div.settings {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #121213;
+  border-radius: 8px;
+  border: 1px solid #1a1a1b;
+  box-shadow: 0 4px 23px 0 rgba(0, 0, 0, .2);
+  color: var(--color);
+
+  div.settings-header {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #3a3a3c;
+
+    button {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--color);
+      border: none;
+      background: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      user-select: none;
+    }
+  }
+}

@@ -1,6 +1,4 @@
 div.keyboard {
-    display: block;
-    height: 200px;
     font-size: 16px;
     font-weight: 400;
     line-height: 16px;
@@ -15,11 +13,11 @@ div.keyboard-row {
     font-size: 16px;
     font-weight: 400;
     line-height: 16px;
-    width: 484px;
     user-select: none;
     margin-bottom: 8px;
     vertical-align: baseline;
     gap: 6px;
+    width: 100%;
 }
 
 div.spacer {
