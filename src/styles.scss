@@ -13,7 +13,7 @@
     --settings-max-width: 520px;
     --settings-border-radius: 8px;
     --settings-padding: 16px;
-    --header-height: 80px;
+    --header-height: 58px;
     --header-padding: 24px;
     --font-weight: 700;
     --font-size: 20px;
@@ -25,14 +25,25 @@
     --color: rgb(0, 0, 0);
     --keyboard-color: rgb(211, 214, 218);
     --back-drop-color: rgba(255, 255, 255, 0.5);
-    --tbd-color: rgb(211, 214, 218);
+    --tbd-color: rgb(135, 138, 140);
     --absent-color: rgb(120, 124, 126);
-    --toggle-off-color: rgb(135, 138, 140);
-    
-    --border: 2px solid var(--tbd-color);
+
+    --border: 2px solid var(--keyboard-color);
     background-color: var(--background-color);
     color: var(--color);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    [state="correct"] {
+        color: var(--background-color) !important;
+    }
+
+    [state="present"] {
+        color: var(--background-color) !important;
+    }
+
+    [state="absent"] {
+        color: var(--background-color) !important;
+    }
 }
 
 :root[theme="dark"] {
@@ -40,9 +51,22 @@
     --color: rgb(248, 248, 248);
     --keyboard-color: rgb(129, 131, 132);
     --back-drop-color: rgba(0, 0, 0, 0.5);
-    --tbd-color: rgb(58, 58, 60);
+    --tbd-color: rgb(86, 87, 88);
     --absent-color: rgb(58, 58, 60);
-    --toggle-off-color: rgb(86, 87, 88);
+
+    --border: 2px solid var(--absent-color);
+
+    [state="correct"] {
+        color: var(--color) !important;
+    }
+
+    [state="present"] {
+        color: var(--color) !important;
+    }
+
+    [state="absent"] {
+        color: var(--color) !important;
+    }
 }
 
 html,
@@ -93,16 +117,16 @@ button {
         handle-shape: rounded,
         selected-icon-size: 0,
         unselected-icon-size: 0,
-        track-outline-color: var(--toggle-off-color),
+        track-outline-color: var(--tbd-color),
         selected-track-outline-color: var(--correct-color),
         selected-track-color: var(--correct-color),
         selected-focus-track-color: var(--correct-color),
         selected-hover-track-color: var(--correct-color),
         selected-pressed-track-color: var(--correct-color),
-        unselected-track-color: var(--toggle-off-color),
-        unselected-focus-track-color: var(--toggle-off-color),
-        unselected-hover-track-color: var(--toggle-off-color),
-        unselected-pressed-track-color: var(--toggle-off-color),
+        unselected-track-color: var(--tbd-color),
+        unselected-focus-track-color: var(--tbd-color),
+        unselected-hover-track-color: var(--tbd-color),
+        unselected-pressed-track-color: var(--tbd-color),
         selected-handle-color: var(--color),
         selected-focus-handle-color: var(--color),
         selected-hover-handle-color: var(--color),

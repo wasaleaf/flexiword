@@ -16,6 +16,11 @@ header {
     justify-content: space-between;
     padding-left: var(--header-padding);
     padding-right: var(--header-padding);
+
+    h1 {
+      margin-top: var(--game-board-padding);
+      margin-bottom: var(--game-board-padding);
+    }
   }
 }
 
