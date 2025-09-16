@@ -8,52 +8,30 @@ div.board-container {
 
 div.board {
     display: grid;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 16px;
-    column-gap: 5px;
-    row-gap: 5px;
+    padding: var(--game-board-padding);
+    column-gap: var(--game-board-gap);
+    row-gap: var(--game-board-gap);
 }
 
 div.row {
     display: grid;
-    grid-template-columns: repeat(5, 62px);
-    column-gap: 5px;
-    row-gap: 5px;
+    grid-template-columns: repeat(var(--word-length), var(--cell-size));
+    column-gap: var(--game-board-gap);
+    row-gap: var(--game-board-gap);
 }
 
 div.cell {
-    width: 62px;
-    height: 62px;
+    width: var(--cell-size);
+    height: var(--cell-size);
     box-sizing: border-box;
-    border: 2px solid var(--absent-color);
+    border: var(--border);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 32px;
+    font-weight: var(--font-weight);
+    font-size: var(--game-board-cell-font-size);
+    line-height: var(--game-board-cell-font-size);
     text-transform: uppercase;
     user-select: none;
     vertical-align: middle;
-}
-
-.cell[state="tbd"] {
-    border-color: var(--border-input-color);
-}
-
-.cell[state="correct"] {
-    background: var(--correct-color);
-    border: none;
-}
-
-.cell[state="present"] {
-    background: var(--present-color);
-    border: none;
-}
-
-.cell[state="absent"] {
-    background: var(--absent-color);
-    border: none;
 }

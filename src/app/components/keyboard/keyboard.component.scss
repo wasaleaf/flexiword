@@ -1,22 +1,16 @@
 div.keyboard {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 16px;
-    margin-left: 8px;
-    margin-right: 8px;
+    margin-left: var(--keyboard-margin);
+    margin-right: var(--keyboard-margin);
     user-select: none;
 }
 
 div.keyboard-row {
     display: flex;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 16px;
     user-select: none;
-    margin-bottom: 8px;
+    margin-bottom: var(--keyboard-margin);
     vertical-align: baseline;
-    gap: 6px;
+    gap: var(--game-board-gap);
     width: 100%;
 }
 
@@ -29,43 +23,19 @@ div.spacer {
 button {
     display: flex;
     align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--color);
     background: var(--keyboard-color);
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    user-select: none;
-    height: 58px;
-    line-height: 23px;
+    height: var(--keyboard-button-height);
     justify-content: center;
     letter-spacing: normal;
     text-align: center;
-    padding: 0px;
     flex: 1 1 0;
 }
 
 button.wide {
     flex-grow: 1.5;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: var(--keyboard-wide-button-font-size);
 
     fa-icon {
-        font-size: 18px;
+        font-size: var(--font-size);
     }
-}
-
-button[state="correct"] {
-    background: var(--correct-color);
-}
-
-button[state="present"] {
-    background: var(--present-color);
-}
-
-button[state="absent"] {
-    background: var(--absent-color);
 }

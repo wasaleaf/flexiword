@@ -5,29 +5,17 @@ div.app-container {
   width: 100%;
 }
 
-button {
-  font-size: 30px;
-  font-weight: 700;
-  color: var(--color);
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-transform: uppercase;
-  user-select: none;
-  padding: 0;
-}
-
 header {
   display: block;
-  border-bottom: 1px solid var(--absent-color);
+  border-bottom: var(--border);
 
   section {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: var(--header-padding);
+    padding-right: var(--header-padding);
   }
 }
 
@@ -36,30 +24,16 @@ div.backdrop {
   inset: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--back-drop-color);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 div.settings {
-  display: flex;
-  position: fixed;
-  top: 0;
-  padding: 0;
-  padding-top: 30px;
-  border: none;
-  justify-content: center;
-  max-width: 520px;
+  max-width: var(--settings-max-width);
   width: 90%;
-  max-height: 100%;
   z-index: 100;
-
-  app-settings {
-    max-width: 520px;
-    width: 90%;
-    max-height: 100%;
-  }
 }
 
 main {
@@ -68,10 +42,10 @@ main {
   align-items: center;
   justify-content: space-evenly;
   width: 100%;
-  max-width: 500px;
+  max-width: var(--game-board-max-width);
   margin: 0 auto;
-  max-height: calc(100% - 80px);
-  height: calc(100% - 80px);
+  max-height: calc(100% - var(--header-height));
+  height: calc(100% - var(--header-height));
 
   app-keyboard {
     width: 100%;
