@@ -18,24 +18,31 @@
     --font-weight: 700;
     --font-size: 20px;
     --button-border: 4px;
-
-    /* Dark mode defaults */
-    --background-color: rgb(18, 18, 19);
-    --color: rgb(248, 248, 248);
-    --keyboard-color: rgb(129, 131, 132);
-    --border: 2px solid var(--absent-color);
-    --back-drop-color: rgba(0, 0, 0, 0.5);
-    --tbd-color: rgb(86, 87, 88);
-    --absent-color: rgb(58, 58, 60);
     --present-color: rgb(181, 159, 59);
     --correct-color: rgb(83, 141, 78);
 
-    /* Light mode defaults */
-
-
+    --background-color: rgb(255, 255, 255);
+    --color: rgb(0, 0, 0);
+    --keyboard-color: rgb(211, 214, 218);
+    --back-drop-color: rgba(255, 255, 255, 0.5);
+    --tbd-color: rgb(211, 214, 218);
+    --absent-color: rgb(120, 124, 126);
+    --toggle-off-color: rgb(135, 138, 140);
+    
+    --border: 2px solid var(--tbd-color);
     background-color: var(--background-color);
     color: var(--color);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+:root[theme="dark"] {
+    --background-color: rgb(18, 18, 19);
+    --color: rgb(248, 248, 248);
+    --keyboard-color: rgb(129, 131, 132);
+    --back-drop-color: rgba(0, 0, 0, 0.5);
+    --tbd-color: rgb(58, 58, 60);
+    --absent-color: rgb(58, 58, 60);
+    --toggle-off-color: rgb(86, 87, 88);
 }
 
 html,
@@ -86,16 +93,16 @@ button {
         handle-shape: rounded,
         selected-icon-size: 0,
         unselected-icon-size: 0,
-        track-outline-color: var(--absent-color),
+        track-outline-color: var(--toggle-off-color),
         selected-track-outline-color: var(--correct-color),
         selected-track-color: var(--correct-color),
         selected-focus-track-color: var(--correct-color),
         selected-hover-track-color: var(--correct-color),
         selected-pressed-track-color: var(--correct-color),
-        unselected-track-color: var(--absent-color),
-        unselected-focus-track-color: var(--absent-color),
-        unselected-hover-track-color: var(--absent-color),
-        unselected-pressed-track-color: var(--absent-color),
+        unselected-track-color: var(--toggle-off-color),
+        unselected-focus-track-color: var(--toggle-off-color),
+        unselected-hover-track-color: var(--toggle-off-color),
+        unselected-pressed-track-color: var(--toggle-off-color),
         selected-handle-color: var(--color),
         selected-focus-handle-color: var(--color),
         selected-hover-handle-color: var(--color),

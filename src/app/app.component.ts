@@ -22,6 +22,14 @@ export class AppComponent implements OnInit {
   public constructor(public gameService: GameService) {}
   
   public ngOnInit() {
+    const stored = localStorage.getItem('theme');
+    if (stored) {
+      document.documentElement.setAttribute('data-theme', stored);
+    }
+    else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('theme', prefersDark ? 'dark' : 'light');
+    }
     this.startNewGame();
   }
 

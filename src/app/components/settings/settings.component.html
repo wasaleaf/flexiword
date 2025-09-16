@@ -20,7 +20,7 @@
         </span>
         <span class="settings-row two-items">
             <p>Dark Theme</p>
-            <mat-slide-toggle [(ngModel)]="darkTheme"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="darkTheme" (change)="updateTheme()"></mat-slide-toggle>
         </span>
         <!-- TODO -->
         <!-- <div>

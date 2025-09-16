@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, model, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
   public closeIcon = faX;
   public dialogOpen = model<boolean>(false);
   public wordLength = model<number>(5);
@@ -23,7 +23,18 @@ export class SettingsComponent {
   public maxGuessMin = 1;
   public maxGuessMax = 10;
 
+  public ngOnInit() {
+    const theme = document.documentElement.getAttribute('theme');
+    this.darkTheme = theme === 'dark' ? true : false;
+  }
+
   public updateDialogOpen(state: boolean): void {
     this.dialogOpen.update(_ => state);
+  }
+
+  public updateTheme() {
+    const theme = this.darkTheme ? 'dark' : 'light';
+    document.documentElement.setAttribute('theme', theme);
+    localStorage.setItem('theme', theme);
   }
 }
