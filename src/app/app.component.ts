@@ -6,6 +6,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AsyncPipe } from '@angular/common';
 import { SettingsComponent } from './components/settings/settings.component';
+import { cleanUpWordOfDayStorage } from './utils/cache-helpers';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +23,10 @@ export class AppComponent implements OnInit {
   public constructor(public gameService: GameService) {}
   
   public ngOnInit() {
+    cleanUpWordOfDayStorage();
     const stored = localStorage.getItem('theme');
     if (stored) {
-      document.documentElement.setAttribute('data-theme', stored);
+      document.documentElement.setAttribute('theme', stored);
     }
     else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
