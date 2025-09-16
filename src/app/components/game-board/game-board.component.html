@@ -1,7 +1,7 @@
 <div class="board-container">
     <div class="board">
         @for (row of rows; track row) {
-        <div class="row">
+        <div class="row" [style.--word-length]="wordLength">
             @for (cell of row.cells; track cell) {
             <div class="cell" [attr.state]="cell.state">{{ cell.letter }}</div>
             }

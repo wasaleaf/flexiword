@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     this.startNewGame();
   }
 
-  private async startNewGame() {
+  public async startNewGame() {
     await this.gameService.newGame(this.wordLength, this.maxGuesses);
   }
 }

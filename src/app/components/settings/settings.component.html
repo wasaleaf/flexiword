@@ -1,12 +1,36 @@
 <div class="settings">
     <div class="settings-header">
-        <h2>Settings</h2>
+        <p>Settings</p>
         <button class="close" (click)="updateDialogOpen(!dialogOpen)"><fa-icon [icon]="closeIcon"></fa-icon></button>
     </div>
-    <div>
-        <!-- TODO add difficulty -->
-        <!-- TODO add guess selection -->
-        <!-- TODO dark/light mode -->
-        <!-- TODO add colour selection for partial and correct -->
+    <div class="settings-container">
+        <span class="settings-row">
+            <p>Word Length</p>
+            <p class="current-value">{{ wordLength() }}</p>
+            <mat-slider [max]="wordLengthMax" [min]="wordLengthMin" [step]="1" [discrete]="true" [showTickMarks]="true">
+                <input matSliderThumb [(ngModel)]="wordLength" #slider>
+            </mat-slider>
+        </span>
+        <span class="settings-row">
+            <p>Guess Amount</p>
+            <p class="current-value">{{ maxGuesses() }}</p>
+            <mat-slider [max]="maxGuessMax" [min]="maxGuessMin" [step]="1" [discrete]="true" [showTickMarks]="true">
+                <input matSliderThumb [(ngModel)]="maxGuesses" #slider>
+            </mat-slider>
+        </span>
+        <span class="settings-row two-items">
+            <p>Dark Theme</p>
+            <mat-slide-toggle [(ngModel)]="darkTheme"></mat-slide-toggle>
+        </span>
+        <!-- TODO -->
+        <!-- <div>
+            <h3>Custom Colors</h3>
+            <span>
+                <h3>Corrent Color</h3>
+            </span>
+            <span>
+                <h3>Partial Correct Color</h3>
+            </span>
+        </div> -->
     </div>
 </div>

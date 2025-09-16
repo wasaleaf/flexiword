@@ -11,7 +11,12 @@
   @if (dialogOpen) {
   <div class="backdrop" (click)="dialogOpen = false">
     <div class="settings" (click)="$event.stopPropagation()">
-      <app-settings [(dialogOpen)]="dialogOpen"></app-settings>
+      <app-settings
+      [(dialogOpen)]="dialogOpen"
+      [(wordLength)]="wordLength"
+      [(maxGuesses)]="maxGuesses"
+      (wordLengthChange)="startNewGame()"
+      (maxGuessesChange)="startNewGame()"></app-settings>
     </div>
   </div>
   }

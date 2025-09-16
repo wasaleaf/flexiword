@@ -1,29 +1,47 @@
 div.settings {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  background-color: #121213;
-  border-radius: 8px;
-  border: 1px solid #1a1a1b;
-  box-shadow: 0 4px 23px 0 rgba(0, 0, 0, .2);
-  color: var(--color);
+  padding: var(--settings-padding);
+  background-color: var(--background-color);
+  border-radius: var(--settings-border-radius);
+  border: var(--border);
+}
 
-  div.settings-header {
-    display: flex;
-    margin-bottom: 15px;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #3a3a3c;
+div.settings-header {
+  position: relative;
+  height: var(--settings-header-height);
+  padding-bottom: var(--settings-padding);
+  border-bottom: var(--border);
 
-    button {
-      font-size: 1.5em;
-      font-weight: 700;
-      color: var(--color);
-      border: none;
-      background: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      user-select: none;
-    }
+  p {
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: var(--font-size);
   }
+
+  button {
+    position: absolute;
+    right: 0;
+  }
+}
+
+span.settings-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: var(--settings-padding);
+
+  p.current-value {
+    text-align: center;
+  }
+}
+
+span.settings-row.two-items {
+  display: flex;
+  justify-content: space-between;
+}
+
+.settings-row+.settings-row {
+  border-top: var(--border);
 }
