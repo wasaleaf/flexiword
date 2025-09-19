@@ -61,6 +61,15 @@ export class WordService {
       attempts++;
     }
 
+    var wordExists = await this.isValidWord(word);
+
+    // Ensure word exists in dictionary api
+    if (!wordExists) {
+      used.push(word);
+      localStorage.setItem(usedKey, JSON.stringify(used));
+      return this.getWordOfDay(length);
+    }
+
     // Save todays word to localStorage
     localStorage.setItem(dayKey, word);
     used.push(word);
