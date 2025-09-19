@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LetterState } from '../enums/letter-state';
 import { Row } from '../types/row';
 import { WordService } from './word.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { WordOfDayCacheKey } from '../utils/cache-helpers';
 
 @Injectable({
@@ -10,16 +10,24 @@ import { WordOfDayCacheKey } from '../utils/cache-helpers';
 })
 export class GameService {
   private rowSubject = new BehaviorSubject<Row[]>([]);
+  private popSubject = new Subject<{ row: number; col: number }>();
+  private flipSubject = new Subject<{ row: number }>();
+  private shakeSubject = new Subject<{ row: number }>();
+  private winSubject = new Subject<{ row: number }>();
   public wordLength = 5;
   public maxGuesses = 6;
   public targetWord = '';
   public rows: Row[] = [];
-  public rows$ = this.rowSubject.asObservable();
   public currentRowIndex = 0;
   public currentCellIndex = 0;
   public gameOver = false;
   public win = false;
   public keyStates: Record<string, LetterState> = {};
+  public rows$ = this.rowSubject.asObservable();
+  public pop$ = this.popSubject.asObservable();
+  public flip$ = this.flipSubject.asObservable();
+  public shake$ = this.shakeSubject.asObservable();
+  public win$ = this.winSubject.asObservable();
 
   public constructor(private wordService: WordService) { }
 
@@ -74,6 +82,7 @@ export class GameService {
     row.cells[this.currentCellIndex].letter = letter;
     row.cells[this.currentCellIndex].state = LetterState.Tbd;
     this.rowSubject.next([...this.rows]);
+    this.popSubject.next({ row: this.currentRowIndex, col: this.currentCellIndex });
     this.currentCellIndex++;
   }
 
@@ -90,6 +99,7 @@ export class GameService {
   private async submitGuess() {
     if (this.gameOver) return;
     if (this.currentCellIndex < this.wordLength) {
+      this.shakeSubject.next({ row: this.currentRowIndex });
       // TODO make a toast message saying not enough letters
       return;
     }
@@ -98,6 +108,7 @@ export class GameService {
     const guess = row.word.toLowerCase();
     const isValid = await this.wordService.isValidWord(guess);
     if (!isValid) {
+      this.shakeSubject.next({ row: this.currentRowIndex });
       // TODO make a toast message saying invalid word
       return;
     }
@@ -144,11 +155,13 @@ export class GameService {
     });
 
     this.rowSubject.next([...this.rows]);
+    this.flipSubject.next({ row: this.currentRowIndex });
 
     // Check for win
     if (states.every(state => state === LetterState.Correct)) {
       this.gameOver = true;
       this.win = true;
+      this.winSubject.next({ row: this.currentRowIndex });
       // TODO make a toast message based on the amount of guesses it took
       return;
     }
