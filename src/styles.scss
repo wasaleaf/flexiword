@@ -145,3 +145,14 @@ button {
         border-radius: 50%;
     }
 }
+
+.mat-mdc-slider {
+    @include mat.slider-overrides((
+        active-track-color: var(--color),
+        inactive-track-color: var(--tbd-color)
+    ));
+
+    .mdc-slider__thumb-knob {
+        border-radius: 9999px;
+    }
+}
