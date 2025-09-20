@@ -9,7 +9,7 @@ import { WordOfDayCacheKey } from '../utils/cache-helpers';
   providedIn: 'root'
 })
 export class GameService {
-  private rowSubject = new BehaviorSubject<Row[]>([]);
+  private keyStatesSubject = new BehaviorSubject<Record<string, LetterState>>({});
   private popSubject = new Subject<{ row: number; col: number }>();
   private flipSubject = new Subject<{ row: number }>();
   private shakeSubject = new Subject<{ row: number }>();
@@ -23,11 +23,11 @@ export class GameService {
   public gameOver = false;
   public win = false;
   public keyStates: Record<string, LetterState> = {};
-  public rows$ = this.rowSubject.asObservable();
   public pop$ = this.popSubject.asObservable();
   public flip$ = this.flipSubject.asObservable();
   public shake$ = this.shakeSubject.asObservable();
   public win$ = this.winSubject.asObservable();
+  public keyStates$ = this.keyStatesSubject.asObservable();
 
   public constructor(private wordService: WordService) { }
 
@@ -36,7 +36,6 @@ export class GameService {
     this.maxGuesses = maxGuesses;
 
     this.rows = Array.from({ length: this.maxGuesses }, () => new Row(this.wordLength));
-    this.rowSubject.next([...this.rows]);
     this.currentRowIndex = 0;
     this.currentCellIndex = 0;
     this.gameOver = false;
@@ -74,6 +73,13 @@ export class GameService {
     }
   }
 
+  public onRowRevealed(rowIndex: number) {
+    this.rows[rowIndex].cells.forEach(cell => {
+      this.setKeyState(cell.letter.toLowerCase(), cell.state);
+    });
+    this.keyStatesSubject.next({ ...this.keyStates });
+  }
+
   private addLetter(letter: string) {
     if (this.gameOver) return;
     if (this.currentCellIndex >= this.wordLength) return;
@@ -81,7 +87,6 @@ export class GameService {
     const row = this.rows[this.currentRowIndex];
     row.cells[this.currentCellIndex].letter = letter;
     row.cells[this.currentCellIndex].state = LetterState.Tbd;
-    this.rowSubject.next([...this.rows]);
     this.popSubject.next({ row: this.currentRowIndex, col: this.currentCellIndex });
     this.currentCellIndex++;
   }
@@ -93,7 +98,6 @@ export class GameService {
     this.currentCellIndex--;
     const row = this.rows[this.currentRowIndex];
     row.cells[this.currentCellIndex].reset();
-    this.rowSubject.next([...this.rows]);
   }
 
   private async submitGuess() {
@@ -148,13 +152,6 @@ export class GameService {
       row.cells[i].state = state;
     });
 
-    // Update keyboard state with precedence
-    guessArr.forEach((letter, i) => {
-      const state = states[i];
-      this.setKeyState(letter, state);
-    });
-
-    this.rowSubject.next([...this.rows]);
     this.flipSubject.next({ row: this.currentRowIndex });
 
     // Check for win

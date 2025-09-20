@@ -1,10 +1,19 @@
 <div class="board-container">
     <div class="board">
-        @for (row of rows; track row; let r = $index) {
-        <div class="row" [style.--word-length]="wordLength" [class.shake]="shakeRow === r">
+        @for (row of gameService.rows; track row; let r = $index) {
+        <div class="row" [style.--word-length]="gameService.wordLength"[class.shake]="shakeRow === r">
             @for (cell of row.cells; track cell; let c = $index) {
-            <div class="cell" [attr.state]="cell.state" [class.pop]="popStates[r][c]" [class.flip]="flipRow=== r && !isWin"
-                [class.win]="winRow === r && isWin" [style.--flip-delay]="(c * 300) + 'ms'" [style.--win-delay]="(c * 100) + 'ms'">{{ cell.letter }}</div>
+            <div class="cell"
+                [class.tbd]="cell.state === LetterState.Tbd"
+                [class.correct]="revealStates[r][c] && cell.state === LetterState.Correct"
+                [class.present]="revealStates[r][c] && cell.state === LetterState.Present"
+                [class.absent]="revealStates[r][c] && cell.state === LetterState.Absent"
+                [class.pop]="popStates[r][c]"
+                [class.flip]="flipRow === r && !gameService.win"
+                [class.win]="winRow === r && gameService.win"
+                [style.--flip-delay]="(c * flipDelayStagger) + 'ms'"
+                [style.--row-length]="gameService.rows.length"
+                [style.--win-delay]="(c * winDelayStagger) + 'ms'">{{ cell.letter }}</div>
             }
         </div>
         }

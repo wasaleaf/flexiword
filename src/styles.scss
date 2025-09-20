@@ -33,15 +33,15 @@
     color: var(--color);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-    [state="correct"] {
+    [state="correct"], .correct {
         color: var(--background-color) !important;
     }
 
-    [state="present"] {
+    [state="present"], .present {
         color: var(--background-color) !important;
     }
 
-    [state="absent"] {
+    [state="absent"], .absent {
         color: var(--background-color) !important;
     }
 }
@@ -56,15 +56,15 @@
 
     --border: 2px solid var(--absent-color);
 
-    [state="correct"] {
+    [state="correct"], .correct {
         color: var(--color) !important;
     }
 
-    [state="present"] {
+    [state="present"], .present {
         color: var(--color) !important;
     }
 
-    [state="absent"] {
+    [state="absent"], .absent {
         color: var(--color) !important;
     }
 }
@@ -92,21 +92,21 @@ button {
     padding: 0px;
 }
 
-[state="tbd"] {
+[state="tbd"], .tbd, .flip {
     border-color: var(--tbd-color) !important;
 }
 
-[state="correct"] {
+[state="correct"], .correct {
     background: var(--correct-color) !important;
     border: none !important;
 }
 
-[state="present"] {
+[state="present"], .present {
     background: var(--present-color) !important;
     border: none !important;
 }
 
-[state="absent"] {
+[state="absent"], .absent {
     background: var(--absent-color) !important;
     border: none !important;
 }

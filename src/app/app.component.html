@@ -11,21 +11,16 @@
   @if (dialogOpen) {
   <div class="backdrop" (click)="dialogOpen = false">
     <div class="settings" (click)="$event.stopPropagation()">
-      <app-settings
-      [(dialogOpen)]="dialogOpen"
-      [(wordLength)]="wordLength"
-      [(maxGuesses)]="maxGuesses"
-      (wordLengthChange)="startNewGame()"
-      (maxGuessesChange)="startNewGame()"></app-settings>
+      <app-settings [(dialogOpen)]="dialogOpen" [(wordLength)]="wordLength" [(maxGuesses)]="maxGuesses"
+        (wordLengthChange)="startNewGame()" (maxGuessesChange)="startNewGame()"></app-settings>
     </div>
   </div>
   }
 
   <main>
-    @if (gameService.rows$ | async; as rows) {
-    <app-game-board [rows]="rows" [wordLength]="gameService.wordLength" [isWin]="gameService.win"></app-game-board>
+    <app-game-board (rowRevealed)="gameService.onRowRevealed($event)"></app-game-board>
+    @if (gameService.keyStates$ | async; as states) {
+    <app-keyboard [keyState]="states" (keyPress)="gameService.handleKeyPress($event)"></app-keyboard>
     }
-
-    <app-keyboard [keyState]="gameService.keyStates" (keyPress)="gameService.handleKeyPress($event)"></app-keyboard>
   </main>
 </div>

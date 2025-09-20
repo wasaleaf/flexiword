@@ -115,6 +115,7 @@ div.row.shake {
 div.cell {
   --flip-delay: 0s;
   --win-delay: 0s;
+  --row-length: 0;
 
   width: var(--cell-size);
   height: var(--cell-size);
@@ -140,5 +141,6 @@ div.cell.flip {
 }
 
 div.cell.win {
-  animation: bounce 600ms ease var(--win-delay) both;
+  animation: flip 600ms ease var(--flip-delay) forwards,
+    bounce 600ms ease calc(300ms * var(--row-length) + var(--win-delay)) forwards;
 }
