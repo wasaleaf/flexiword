@@ -13,6 +13,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   public rows: Row[] = [];
   @Input()
   public wordLength: number = 5;
+  @Input()
+  public isWin = false;
 
   public popStates: boolean[][] = [];
   public shakeRow: number | null = null;

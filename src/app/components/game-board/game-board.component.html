@@ -3,8 +3,8 @@
         @for (row of rows; track row; let r = $index) {
         <div class="row" [style.--word-length]="wordLength" [class.shake]="shakeRow === r">
             @for (cell of row.cells; track cell; let c = $index) {
-            <div class="cell" [attr.state]="cell.state" [class.pop]="popStates[r][c]" [class.flip]="flipRow=== r"
-                [class.win]="winRow === r" [style.animation-delay]="(c * 0.3) + 's'">{{ cell.letter }}</div>
+            <div class="cell" [attr.state]="cell.state" [class.pop]="popStates[r][c]" [class.flip]="flipRow=== r && !isWin"
+                [class.win]="winRow === r && isWin" [style.--flip-delay]="(c * 300) + 'ms'" [style.--win-delay]="(c * 100) + 'ms'">{{ cell.letter }}</div>
             }
         </div>
         }

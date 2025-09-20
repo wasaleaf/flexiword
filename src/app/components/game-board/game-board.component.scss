@@ -3,10 +3,12 @@
     transform: scale(0.8);
     opacity: 0.5;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 1;
   }
+
   100% {
     transform: scale(1);
   }
@@ -17,86 +19,126 @@
     transform: rotateX(0);
     background-color: inherit;
   }
+
   49% {
     transform: rotateX(90deg);
     background-color: inherit;
   }
+
   50% {
     transform: rotateX(90deg);
   }
+
   100% {
     transform: rotateX(0);
   }
 }
 
 @keyframes shake {
-  0%   { transform: translateX(0); }
-  15%  { transform: translateX(-6px); }
-  30%  { transform: translateX(6px); }
-  45%  { transform: translateX(-6px); }
-  60%  { transform: translateX(6px); }
-  75%  { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+
+  15% {
+    transform: translateX(-6px);
+  }
+
+  30% {
+    transform: translateX(6px);
+  }
+
+  45% {
+    transform: translateX(-6px);
+  }
+
+  60% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @keyframes bounce {
-  0%   { transform: translateY(0); }
-  30%  { transform: translateY(-20%); }
-  50%  { transform: translateY(0); }
-  70%  { transform: translateY(-10%); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-20%);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  70% {
+    transform: translateY(-10%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 div.board-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 div.board {
-    display: grid;
-    padding: var(--game-board-padding);
-    column-gap: var(--game-board-gap);
-    row-gap: var(--game-board-gap);
+  display: grid;
+  padding: var(--game-board-padding);
+  column-gap: var(--game-board-gap);
+  row-gap: var(--game-board-gap);
 }
 
 div.row {
-    display: grid;
-    grid-template-columns: repeat(var(--word-length), var(--cell-size));
-    column-gap: var(--game-board-gap);
-    row-gap: var(--game-board-gap);
+  display: grid;
+  grid-template-columns: repeat(var(--word-length), var(--cell-size));
+  column-gap: var(--game-board-gap);
+  row-gap: var(--game-board-gap);
 }
 
 div.row.shake {
-    animation: shake 0.6s ease;
+  animation: shake 400ms ease;
 }
 
 div.cell {
-    width: var(--cell-size);
-    height: var(--cell-size);
-    box-sizing: border-box;
-    border: var(--border);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: var(--font-weight);
-    font-size: var(--game-board-cell-font-size);
-    line-height: var(--game-board-cell-font-size);
-    text-transform: uppercase;
-    user-select: none;
-    vertical-align: middle;
+  --flip-delay: 0s;
+  --win-delay: 0s;
+
+  width: var(--cell-size);
+  height: var(--cell-size);
+  box-sizing: border-box;
+  border: var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight);
+  font-size: var(--game-board-cell-font-size);
+  line-height: var(--game-board-cell-font-size);
+  text-transform: uppercase;
+  user-select: none;
+  vertical-align: middle;
 }
 
 div.cell.pop {
-    animation: pop 0.15s ease;
+  animation: pop 150ms ease both;
 }
 
 div.cell.flip {
-  animation: flip 0.6s ease forwards;
+  animation: flip 600ms ease var(--flip-delay) forwards;
 }
 
 div.cell.win {
-  animation: bounce 0.6s ease;
+  animation: bounce 600ms ease var(--win-delay) both;
 }

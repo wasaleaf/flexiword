@@ -23,7 +23,7 @@
 
   <main>
     @if (gameService.rows$ | async; as rows) {
-    <app-game-board [rows]="rows" [wordLength]="gameService.wordLength"></app-game-board>
+    <app-game-board [rows]="rows" [wordLength]="gameService.wordLength" [isWin]="gameService.win"></app-game-board>
     }
 
     <app-keyboard [keyState]="gameService.keyStates" (keyPress)="gameService.handleKeyPress($event)"></app-keyboard>
