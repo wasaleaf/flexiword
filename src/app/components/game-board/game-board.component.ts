@@ -23,13 +23,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   public winRow: number | null = null;
 
   private sub = new Subscription();
+  private timeouts: number[] = [];
 
   public constructor(public gameService: GameService) { }
-
-  public ngOnDestroy(): void {
-    this.sub.unsubscribe();
-    // TODO handle setTimeout
-  }
 
   public ngOnInit() {
     this.popStates = this.gameService.rows.map(r => r.cells.map(_ => false));
@@ -38,14 +34,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.gameService.pop$.subscribe(({ row, col }) => {
         this.popStates[row][col] = true;
-        setTimeout(() => this.popStates[row][col] = false, this.popDuration);
+        this.registerTimeout(() => this.popStates[row][col] = false, this.popDuration);
       })
     );
 
     this.sub.add(
       this.gameService.shake$.subscribe(({ row }) => {
         this.shakeRow = row;
-        setTimeout(() => this.shakeRow = null, this.animationDuration);
+        this.registerTimeout(() => this.shakeRow = null, this.animationDuration);
       })
     );
 
@@ -53,13 +49,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.gameService.flip$.subscribe(({ row }) => {
         this.flipRow = row;
         this.gameService.rows[row].cells.forEach((_, c) => {
-          setTimeout(() => {
+          this.registerTimeout(() => {
             this.revealStates[row][c] = true;
           }, (c * this.flipDelayStagger) + this.flipDelayStagger);
         });
 
         const totalDelay = this.animationDuration + (this.gameService.rows[row].cells.length - 1) * this.flipDelayStagger;
-        setTimeout(() => {
+        this.registerTimeout(() => {
           this.rowRevealed.emit(row);
           this.flipRow = null;
         }, totalDelay);
@@ -70,11 +66,30 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.gameService.win$.subscribe(({ row }) => {
         this.winRow = row;
         this.gameService.rows[row].cells.forEach((_, c) => {
-          setTimeout(() => {
+          this.registerTimeout(() => {
             this.revealStates[row][c] = true;
           }, (c * this.flipDelayStagger) + this.flipDelayStagger);
         });
       })
     );
+  }
+
+    public ngOnDestroy(): void {
+    this.sub.unsubscribe();
+    this.timeouts.forEach(id => clearTimeout(id));
+    this.timeouts = [];
+  }
+
+  private registerTimeout(fn: () => void, delay: number) {
+    const id = window.setTimeout(() => {
+      try {
+        fn();
+      }
+      finally {
+        this.timeouts = this.timeouts.filter(t => t !== id);
+      }
+    }, delay);
+
+    this.timeouts.push(id);
   }
 }
