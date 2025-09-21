@@ -1,5 +1,5 @@
-@for (message of messages; track message) {
-<div>
-    <span>{{message}}</span>
+@for (toast of toasts; track toast) {
+<div [class.fade-out]="toast.closing">
+    <span>{{toast.message}}</span>
 </div>
 }

@@ -7,6 +7,7 @@ import { WordOfDayCacheKey } from '../utils/cache-helpers';
 import { ToastService } from './toast.service';
 import { KeyStateService } from './key-state.service';
 import { GameEventsService } from './game-events.service';
+import { Toast } from '../types/toast';
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +86,7 @@ export class GameService {
     if (this.gameOver) return;
     if (this.currentCellIndex < this.wordLength) {
       this.gameEventsService.shake(this.currentRowIndex);
-      this.toastService.show("Not enough letters");
+      this.toastService.show(new Toast("Not enough letters", 2000));
       return;
     }
 
@@ -94,7 +95,7 @@ export class GameService {
     const isValid = await this.wordService.isValidWord(guess);
     if (!isValid) {
       this.gameEventsService.shake(this.currentRowIndex);
-      this.toastService.show("Not a valid word");
+      this.toastService.show(new Toast("Not a valid word", 2000));
       return;
     }
 
@@ -140,14 +141,14 @@ export class GameService {
       this.gameOver = true;
       this.win = true;
       this.gameEventsService.win(this.currentRowIndex);
-      this.toastService.show("Nice!");
+      this.toastService.show(new Toast("Nice!", 2000));
       return;
     }
 
     // Check for game over
     if (this.currentRowIndex === this.maxGuesses - 1) {
       this.gameOver = true;
-      this.toastService.show(this.targetWord);
+      this.toastService.show(new Toast(this.targetWord.toUpperCase()));
     }
 
     this.currentRowIndex++;

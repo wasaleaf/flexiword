@@ -1,4 +1,32 @@
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+:host {
+    position: absolute;
+    top: var(--header-height);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+}
+
 div {
     background-color: var(--color);
     color: var(--background-color);
+    padding: var(--game-board-padding);
+    border-radius: var(--settings-border-radius);
+}
+
+div+div {
+    margin-top: var(--game-board-padding);
+}
+
+div.fade-out {
+    animation: fadeOut 0.5s ease forwards;
 }

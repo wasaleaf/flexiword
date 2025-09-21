@@ -18,8 +18,10 @@
   }
 
   <main>
-    <app-toast></app-toast>
-    <app-game-board [rows]="gameService.rows" [wordLength]="gameService.wordLength" [win]="gameService.win" (rowRevealed)="gameService.onRowRevealed($event)"></app-game-board>
+    <div>
+      <app-toast></app-toast>
+      <app-game-board [rows]="gameService.rows" [wordLength]="gameService.wordLength" [win]="gameService.win" (rowRevealed)="gameService.onRowRevealed($event)"></app-game-board>
+    </div>
     <app-keyboard></app-keyboard>
   </main>
 </div>

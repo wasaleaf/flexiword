@@ -6,8 +6,6 @@ import { UsedWordsCacheKey, WordListCacheKey, WordOfDayCacheKey } from '../utils
   providedIn: 'root'
 })
 export class WordService {
-  public constructor() { }
-
   public async getWordList(length: number): Promise<string[]> {
     const key = WordListCacheKey(length);
     const cached = localStorage.getItem(key);
