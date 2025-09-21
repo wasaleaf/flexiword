@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { LetterState } from '../../enums/letter-state';
@@ -10,7 +10,7 @@ import { Row } from '../../types/row';
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss'
 })
-export class GameBoardComponent implements OnInit, OnDestroy {  
+export class GameBoardComponent implements OnInit, OnChanges, OnDestroy {
   public popDuration = 200;
   public animationDuration = 600;
   public winDelayStagger = 100;
@@ -78,7 +78,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     );
   }
 
-    public ngOnDestroy(): void {
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['wordLength']) {
+      this.popStates = this.rows.map(r => r.cells.map(_ => false));
+      this.revealStates = this.rows.map(r => r.cells.map(_ => false));
+    }
+  }
+
+  public ngOnDestroy(): void {
     this.sub.unsubscribe();
     this.timeouts.forEach(id => clearTimeout(id));
     this.timeouts = [];

@@ -16,6 +16,7 @@ export class KeyboardComponent implements OnInit {
   public deleteIcon = faDeleteLeft;
   public keyState: Record<string, LetterState> = {};
   public layout: string[][] = [];
+  public disableKeyboard = false;
 
   public constructor(private gameService: GameService, private keyStateService: KeyStateService) {
     this.layout = keyStateService.layout;
@@ -25,10 +26,15 @@ export class KeyboardComponent implements OnInit {
     this.keyStateService.keyStates$.subscribe(state => {
       this.keyState = state;
     });
+    this.gameService.guess$.subscribe(guessing => {
+      this.disableKeyboard = guessing;
+    });
   }
 
   @HostListener('window:keyup', ['$event'])
   public async proccessKey(input: string | KeyboardEvent) {
+    if (this.disableKeyboard) return;
+    
     let key: string;
 
     if (typeof input === 'string') {

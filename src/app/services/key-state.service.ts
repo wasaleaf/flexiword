@@ -29,4 +29,14 @@ export class KeyStateService {
       this.keyStatesSubject.next({ ...this.keyStates });
     }
   }
+
+  public resetState() {
+    this.keyStates = {};
+
+    this.layout.flat().forEach(letter => {
+      this.keyStates[letter] = LetterState.Empty;
+    });
+    
+    this.keyStatesSubject.next({ ...this.keyStates });
+  }
 }

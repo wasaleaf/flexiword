@@ -3,22 +3,22 @@
     <div class="keyboard-row">
         @if (r === 0) {
         @for (key of row; track key) {
-        <button [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
+        <button [disabled]="disableKeyboard" [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
         }
         }
         @if (r === 1) {
         <div class="spacer"></div>
         @for (key of row; track key) {
-        <button [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
+        <button [disabled]="disableKeyboard" [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
         }
         <div class="spacer"></div>
         }
         @if (r === 2) {
-        <button class="wide" (click)="proccessKey('ENTER')">Enter</button>
+        <button class="wide" [disabled]="disableKeyboard" (click)="proccessKey('ENTER')">Enter</button>
         @for (key of row; track key) {
-        <button [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
+        <button [disabled]="disableKeyboard" [attr.state]="keyState[key]" (click)="proccessKey(key)">{{key}}</button>
         }
-        <button class="wide" (click)="proccessKey('BACKSPACE')"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+        <button class="wide" [disabled]="disableKeyboard" (click)="proccessKey('BACKSPACE')"><fa-icon [icon]="deleteIcon"></fa-icon></button>
         }
     </div>
     }

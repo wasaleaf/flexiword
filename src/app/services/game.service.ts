@@ -8,6 +8,7 @@ import { ToastService } from './toast.service';
 import { KeyStateService } from './key-state.service';
 import { GameEventsService } from './game-events.service';
 import { Toast } from '../types/toast';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,9 @@ export class GameService {
   private maxGuesses = 6;
   private currentRowIndex = 0;
   private currentCellIndex = 0;
-
+  private guessSubject = new Subject<boolean>();
+  
+  public guess$ = this.guessSubject.asObservable();
 
   public constructor(
     private wordService: WordService,
@@ -31,6 +34,7 @@ export class GameService {
     private gameEventsService: GameEventsService) { }
 
   public async newGame(length: number, maxGuesses: number) {
+    this.keyStateService.resetState();
     this.wordLength = length;
     this.maxGuesses = maxGuesses;
 
@@ -57,6 +61,7 @@ export class GameService {
   }
 
   public onRowRevealed(rowIndex: number) {
+    this.guessSubject.next(false);
     this.rows[rowIndex].cells.forEach(cell => {
       this.keyStateService.setKeyState(cell.letter.toLowerCase(), cell.state);
     });
@@ -83,10 +88,12 @@ export class GameService {
   }
 
   public async submitGuess() {
+    this.guessSubject.next(true);
     if (this.gameOver) return;
     if (this.currentCellIndex < this.wordLength) {
       this.gameEventsService.shake(this.currentRowIndex);
       this.toastService.show(new Toast("Not enough letters", 2000));
+      this.guessSubject.next(false);
       return;
     }
 
@@ -96,6 +103,7 @@ export class GameService {
     if (!isValid) {
       this.gameEventsService.shake(this.currentRowIndex);
       this.toastService.show(new Toast("Not a valid word", 2000));
+      this.guessSubject.next(false);
       return;
     }
 
