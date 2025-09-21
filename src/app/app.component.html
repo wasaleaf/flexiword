@@ -18,9 +18,8 @@
   }
 
   <main>
-    <app-game-board (rowRevealed)="gameService.onRowRevealed($event)"></app-game-board>
-    @if (gameService.keyStates$ | async; as states) {
-    <app-keyboard [keyState]="states" (keyPress)="gameService.handleKeyPress($event)"></app-keyboard>
-    }
+    <app-toast></app-toast>
+    <app-game-board [rows]="gameService.rows" [wordLength]="gameService.wordLength" [win]="gameService.win" (rowRevealed)="gameService.onRowRevealed($event)"></app-game-board>
+    <app-keyboard></app-keyboard>
   </main>
 </div>

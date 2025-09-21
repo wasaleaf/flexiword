@@ -1,7 +1,10 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { LetterState } from '../../enums/letter-state';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { LetterState } from '../../enums/letter-state';
+import { GameService } from '../../services/game.service';
+import { KeyStateService } from '../../services/key-state.service';
 
 @Component({
   selector: 'app-keyboard',
@@ -9,25 +12,42 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   templateUrl: './keyboard.component.html',
   styleUrl: './keyboard.component.scss'
 })
-export class KeyboardComponent {
+export class KeyboardComponent implements OnInit {
   public deleteIcon = faDeleteLeft;
-  @Input() keyState: Record<string, LetterState> = {};
-  @Output() keyPress = new EventEmitter<string>();
+  public keyState: Record<string, LetterState> = {};
+  public layout: string[][] = [];
 
-  protected row1 = ['q','w','e','r','t','y','u','i','o','p'];
-  protected row2 = ['a','s','d','f','g','h','j','k','l'];
-  protected row3 = ['z','x','c','v','b','n','m'];
+  public constructor(private gameService: GameService, private keyStateService: KeyStateService) {
+    this.layout = keyStateService.layout;
+  }
 
-  public onKey(key: string) {
-    this.keyPress.emit(key);
+  public ngOnInit() {
+    this.keyStateService.keyStates$.subscribe(state => {
+      this.keyState = state;
+    });
   }
 
   @HostListener('window:keyup', ['$event'])
-  public handleKeyUp(event: KeyboardEvent) {
-    const key = event.key.toUpperCase();
+  public async proccessKey(input: string | KeyboardEvent) {
+    let key: string;
 
-    if (key === 'ENTER' || key === 'BACKSPACE' || /^[A-Z]$/.test(key)) {
-      this.keyPress.emit(key);
+    if (typeof input === 'string') {
+      key = input.toUpperCase();
+    }
+    else {
+      key = input.key.toUpperCase();
+    }
+
+    if (this.gameService.gameOver) return;
+
+    if (key === 'ENTER') {
+      await this.gameService.submitGuess();
+    }
+    else if (key === 'BACKSPACE') {
+      this.gameService.removeLetter();
+    }
+    else if (/^[A-Z]$/.test(key)) {
+      this.gameService.addLetter(key);
     }
   }
 }

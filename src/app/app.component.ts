@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { GameService } from './services/game.service';
 import { KeyboardComponent } from './components/keyboard/keyboard.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AsyncPipe } from '@angular/common';
 import { SettingsComponent } from './components/settings/settings.component';
 import { cleanUpWordOfDayStorage } from './utils/cache-helpers';
+import { ToastComponent } from './components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [FontAwesomeModule, AsyncPipe, SettingsComponent, GameBoardComponent, KeyboardComponent],
+  imports: [FontAwesomeModule, SettingsComponent, GameBoardComponent, KeyboardComponent, ToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

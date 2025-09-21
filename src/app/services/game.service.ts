@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
+
 import { LetterState } from '../enums/letter-state';
 import { Row } from '../types/row';
 import { WordService } from './word.service';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { WordOfDayCacheKey } from '../utils/cache-helpers';
+import { ToastService } from './toast.service';
+import { KeyStateService } from './key-state.service';
+import { GameEventsService } from './game-events.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private keyStatesSubject = new BehaviorSubject<Record<string, LetterState>>({});
-  private popSubject = new Subject<{ row: number; col: number }>();
-  private flipSubject = new Subject<{ row: number }>();
-  private shakeSubject = new Subject<{ row: number }>();
-  private winSubject = new Subject<{ row: number }>();
   public wordLength = 5;
-  public maxGuesses = 6;
-  public targetWord = '';
   public rows: Row[] = [];
-  public currentRowIndex = 0;
-  public currentCellIndex = 0;
   public gameOver = false;
   public win = false;
-  public keyStates: Record<string, LetterState> = {};
-  public pop$ = this.popSubject.asObservable();
-  public flip$ = this.flipSubject.asObservable();
-  public shake$ = this.shakeSubject.asObservable();
-  public win$ = this.winSubject.asObservable();
-  public keyStates$ = this.keyStatesSubject.asObservable();
 
-  public constructor(private wordService: WordService) { }
+  private targetWord = '';
+  private maxGuesses = 6;
+  private currentRowIndex = 0;
+  private currentCellIndex = 0;
+
+
+  public constructor(
+    private wordService: WordService,
+    private toastService: ToastService,
+    private keyStateService: KeyStateService,
+    private gameEventsService: GameEventsService) { }
 
   public async newGame(length: number, maxGuesses: number) {
     this.wordLength = length;
@@ -40,7 +38,6 @@ export class GameService {
     this.currentCellIndex = 0;
     this.gameOver = false;
     this.win = false;
-    this.keyStates = {};
 
     const dayKey = WordOfDayCacheKey(length);
     const stored = localStorage.getItem(dayKey);
@@ -58,40 +55,24 @@ export class GameService {
     }
   }
 
-  public handleKeyPress(key: string) {
-    if (this.gameOver) return;
-    key = key.toUpperCase();
-
-    if (key === 'ENTER') {
-      this.submitGuess();
-    }
-    else if (key === 'BACKSPACE') {
-      this.removeLetter();
-    }
-    else if (/^[A-Z]$/.test(key)) {
-      this.addLetter(key);
-    }
-  }
-
   public onRowRevealed(rowIndex: number) {
     this.rows[rowIndex].cells.forEach(cell => {
-      this.setKeyState(cell.letter.toLowerCase(), cell.state);
+      this.keyStateService.setKeyState(cell.letter.toLowerCase(), cell.state);
     });
-    this.keyStatesSubject.next({ ...this.keyStates });
   }
 
-  private addLetter(letter: string) {
+  public addLetter(letter: string) {
     if (this.gameOver) return;
     if (this.currentCellIndex >= this.wordLength) return;
 
     const row = this.rows[this.currentRowIndex];
     row.cells[this.currentCellIndex].letter = letter;
     row.cells[this.currentCellIndex].state = LetterState.Tbd;
-    this.popSubject.next({ row: this.currentRowIndex, col: this.currentCellIndex });
+    this.gameEventsService.pop(this.currentRowIndex, this.currentCellIndex);
     this.currentCellIndex++;
   }
 
-  private removeLetter() {
+  public removeLetter() {
     if (this.gameOver) return;
     if (this.currentCellIndex === 0) return;
 
@@ -100,11 +81,11 @@ export class GameService {
     row.cells[this.currentCellIndex].reset();
   }
 
-  private async submitGuess() {
+  public async submitGuess() {
     if (this.gameOver) return;
     if (this.currentCellIndex < this.wordLength) {
-      this.shakeSubject.next({ row: this.currentRowIndex });
-      // TODO make a toast message saying not enough letters
+      this.gameEventsService.shake(this.currentRowIndex);
+      this.toastService.show("Not enough letters");
       return;
     }
 
@@ -112,8 +93,8 @@ export class GameService {
     const guess = row.word.toLowerCase();
     const isValid = await this.wordService.isValidWord(guess);
     if (!isValid) {
-      this.shakeSubject.next({ row: this.currentRowIndex });
-      // TODO make a toast message saying invalid word
+      this.gameEventsService.shake(this.currentRowIndex);
+      this.toastService.show("Not a valid word");
       return;
     }
 
@@ -152,36 +133,24 @@ export class GameService {
       row.cells[i].state = state;
     });
 
-    this.flipSubject.next({ row: this.currentRowIndex });
+    this.gameEventsService.flip(this.currentRowIndex);
 
     // Check for win
     if (states.every(state => state === LetterState.Correct)) {
       this.gameOver = true;
       this.win = true;
-      this.winSubject.next({ row: this.currentRowIndex });
-      // TODO make a toast message based on the amount of guesses it took
+      this.gameEventsService.win(this.currentRowIndex);
+      this.toastService.show("Nice!");
       return;
     }
 
     // Check for game over
-    if (this.currentRowIndex === this.maxGuesses) {
+    if (this.currentRowIndex === this.maxGuesses - 1) {
       this.gameOver = true;
-      // TODO make a toast message that the game is over and what the word was
+      this.toastService.show(this.targetWord);
     }
 
     this.currentRowIndex++;
     this.currentCellIndex = 0;
-  }
-
-  private statePrecedence(state: LetterState) {
-    return state === LetterState.Correct ? 3 : state === LetterState.Present ? 2 : state === LetterState.Absent ? 1 : 0;
-  }
-
-  private setKeyState(letter: string, state: LetterState) {
-    if (state === LetterState.Tbd || state === LetterState.Empty) return;
-    const currentState = this.keyStates[letter];
-    if (this.statePrecedence(state) > this.statePrecedence(currentState)) {
-      this.keyStates[letter] = state;
-    }
   }
 }

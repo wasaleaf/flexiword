@@ -1,7 +1,7 @@
 <div class="board-container">
     <div class="board">
-        @for (row of gameService.rows; track row; let r = $index) {
-        <div class="row" [style.--word-length]="gameService.wordLength"[class.shake]="shakeRow === r">
+        @for (row of rows; track row; let r = $index) {
+        <div class="row" [style.--word-length]="wordLength"[class.shake]="shakeRow === r">
             @for (cell of row.cells; track cell; let c = $index) {
             <div class="cell"
                 [class.tbd]="cell.state === LetterState.Tbd"
@@ -9,10 +9,10 @@
                 [class.present]="revealStates[r][c] && cell.state === LetterState.Present"
                 [class.absent]="revealStates[r][c] && cell.state === LetterState.Absent"
                 [class.pop]="popStates[r][c]"
-                [class.flip]="flipRow === r && !gameService.win"
-                [class.win]="winRow === r && gameService.win"
+                [class.flip]="flipRow === r && !win"
+                [class.win]="winRow === r && win"
                 [style.--flip-delay]="(c * flipDelayStagger) + 'ms'"
-                [style.--row-length]="gameService.rows.length"
+                [style.--row-length]="rows.length"
                 [style.--win-delay]="(c * winDelayStagger) + 'ms'">{{ cell.letter }}</div>
             }
         </div>
