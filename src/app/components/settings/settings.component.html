@@ -6,31 +6,29 @@
     <div class="settings-container">
         <span class="settings-row">
             <p>Word Length</p>
-            <p class="current-value">{{ wordLength() }}</p>
+            <p class="current-value">{{ settings().wordLength }}</p>
             <mat-slider [max]="wordLengthMax" [min]="wordLengthMin" [step]="1" [discrete]="true" [showTickMarks]="true">
-                <input matSliderThumb [(ngModel)]="wordLength" #slider>
+                <input matSliderThumb [(ngModel)]="settings().wordLength" (change)="triggerNewGame()" #slider>
             </mat-slider>
         </span>
         <span class="settings-row">
             <p>Guess Amount</p>
-            <p class="current-value">{{ maxGuesses() }}</p>
+            <p class="current-value">{{ settings().guessLimit }}</p>
             <mat-slider [max]="maxGuessMax" [min]="maxGuessMin" [step]="1" [discrete]="true" [showTickMarks]="true">
-                <input matSliderThumb [(ngModel)]="maxGuesses" #slider>
+                <input matSliderThumb [(ngModel)]="settings().guessLimit" (change)="triggerNewGame()" #slider>
             </mat-slider>
         </span>
         <span class="settings-row two-items">
             <p>Dark Theme</p>
-            <mat-slide-toggle [(ngModel)]="darkTheme" (change)="updateTheme()"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="settings().theme" (change)="updateTheme()"></mat-slide-toggle>
         </span>
-        <!-- TODO -->
-        <!-- <div>
-            <h3>Custom Colors</h3>
-            <span>
-                <h3>Corrent Color</h3>
-            </span>
-            <span>
-                <h3>Partial Correct Color</h3>
-            </span>
-        </div> -->
+        <span class="settings-row two-items">
+            <p>Corrent Color</p>
+            <input type="color" [(ngModel)]="settings().correctColor" (change)="updateColor(true)">
+        </span>
+        <span class="settings-row two-items">
+            <p>Partial Color</p>
+            <input type="color" [(ngModel)]="settings().presentColor" (change)="updateColor(false)">
+        </span>
     </div>
 </div>

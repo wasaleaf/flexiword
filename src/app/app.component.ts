@@ -8,6 +8,7 @@ import { GameBoardComponent } from './components/game-board/game-board.component
 import { SettingsComponent } from './components/settings/settings.component';
 import { cleanUpWordOfDayStorage } from './utils/cache-helpers';
 import { ToastComponent } from './components/toast/toast.component';
+import { GameSettings } from './types/settings';
 
 @Component({
   selector: 'app-root',
@@ -18,25 +19,28 @@ import { ToastComponent } from './components/toast/toast.component';
 export class AppComponent implements OnInit {
   public settingsIcon = faCog;
   public dialogOpen = false;
-  public wordLength = 5; // default word length
-  public maxGuesses = 6; // default number of guesses
+  public settings: GameSettings = GameSettings.load();
 
-  public constructor(public gameService: GameService) {}
+  public constructor(public gameService: GameService) { }
   
   public ngOnInit() {
     cleanUpWordOfDayStorage();
-    const stored = localStorage.getItem('theme');
-    if (stored) {
-      document.documentElement.setAttribute('theme', stored);
+    if (this.settings.theme) {
+      document.documentElement.setAttribute('theme', this.settings.theme);
     }
     else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('theme', prefersDark ? 'dark' : 'light');
+      const theme = prefersDark ? 'dark' : 'light';
+      document.documentElement.setAttribute('theme', theme);
+      this.settings.theme = theme;
+      this.settings.save();
     }
+    document.documentElement.style.setProperty('--correct-color', this.settings.correctColor);
+    document.documentElement.style.setProperty('--present-color', this.settings.presentColor);
     this.startNewGame();
   }
 
   public async startNewGame() {
-    await this.gameService.newGame(this.wordLength, this.maxGuesses);
+    await this.gameService.newGame(this.settings.wordLength, this.settings.guessLimit);
   }
 }
